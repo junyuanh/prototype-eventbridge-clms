@@ -1,0 +1,13 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "events.amazonaws.com"
+      },
+      "Action": "events:PutEvents",
+      "Resource": "arn:aws:events:us-east-1:000000000000:rule/TestRule"
+    }
+  ]
+}

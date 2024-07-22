@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: localstack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: localstack
+  template:
+    metadata:
+      labels:
+        app: localstack
+    spec:
+      containers:
+        - name: localstack
+          image: localstack/localstack:latest
+          ports:
+            - containerPort: 4566
+            - containerPort: 4571
+          env:
+            - name: SERVICES
+              value: "lambda,s3,cloudwatch,logs,events"
+            - name: DEBUG
+              value: "1"
+            - name: DATA_DIR
+              value: "/var/localstack"
+          volumeMounts:
+            - mountPath: /var/localstack
+              name: localstack-storage
+      volumes:
+        - name: localstack-storage
+          emptyDir: {}
+
+
