@@ -16,7 +16,7 @@ public class AppConfig {
      * @return EventBridgeClient
      */
 
-    // Create and configure an EventBridge client using credentials from AWS Secrets Manager
+    // Create and configure an EventBridge client
     public static EventBridgeClient createEventBridgeClient() {
         //String endpointUri = "http://192.168.5.15:30666"; //Kubernetes node IP and NodePort
         //URI endpoint = URI.create(endpointUri);
