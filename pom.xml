@@ -20,57 +20,37 @@
 
     <dependencies>
         <dependency>
-            <!-- AWS SDK for EventBridge -->
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>eventbridge</artifactId>
             <version>2.17.87</version>
         </dependency>
-        <!-- AWS SDK Auth: Provides the authentication classes and utilities -->
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>auth</artifactId>
             <version>2.17.87</version>
         </dependency>
-        <!-- AWS SDK Regions: Provides region-specific configurations and utilities -->
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>regions</artifactId>
             <version>2.17.87</version>
         </dependency>
-        <!-- SLF4J for logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.32</version>
         </dependency>
-        <!-- AWS Lambda Java Core: Core classes for AWS Lambda functions in Java -->
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-lambda-java-core</artifactId>
             <version>1.2.1</version>
         </dependency>
-        <!-- AWS Lambda Java Events: Classes for AWS Lambda function events in Java -->
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-lambda-java-events</artifactId>
             <version>3.9.0</version>
         </dependency>
-        <!-- Apache HttpClient: HTTP client for sending HTTP requests and receiving HTTP responses -->
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.5.13</version>
-        </dependency>
-        <!-- AWS Secrets Manager: SDK for interacting with AWS Secrets Manager -->
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>secretsmanager</artifactId>
-            <version>2.17.87</version>
-        </dependency>
-
     </dependencies>
-
-    <!-- Add AWS SDK repository -->
+         
     <repositories>
         <repository>
             <id>aws-sdk-java</id>
@@ -80,7 +60,6 @@
 
     <build>
         <plugins>
-            <!-- Compiler plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -91,7 +70,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Assembly plugin for creating JAR with dependencies -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -117,7 +95,6 @@
                 </executions>
             </plugin>
 
-            <!-- Exec plugin for running the main class -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
