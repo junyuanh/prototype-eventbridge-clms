@@ -1,13 +1,17 @@
 package com.example;
 
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.eventbridge.EventBridgeClient;
-import java.net.URI;
+import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
+import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRequest;
+import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueResponse;
+import org.json.JSONObject;
 
 /**
  * Configuration class for creating AWS EventBridge client.
  */
-
 public class AppConfig {
 
     /**
@@ -15,17 +19,35 @@ public class AppConfig {
      *
      * @return EventBridgeClient
      */
-
-    // Create and configure an EventBridge client
     public static EventBridgeClient createEventBridgeClient() {
-        //String endpointUri = "http://192.168.5.15:30666"; //Kubernetes node IP and NodePort
-        //URI endpoint = URI.create(endpointUri);
+        // Create a Secrets Manager client
+        SecretsManagerClient secretsClient = SecretsManagerClient.builder().build();
 
-        // Create and return the EventBridge client
-        return EventBridgeClient.builder()
-                .region(Region.US_EAST_1)
+        // Name of the secret which contains the AWS credentials
+        String secretName = "eventbridge-test-credentials";
+
+        // Create a request to get the secret value
+        GetSecretValueRequest getSecretValueRequest = GetSecretValueRequest.builder()
+                .secretId(secretName)
                 .build();
 
+        // Get the secret value from Secrets Manager
+        GetSecretValueResponse getSecretValueResponse = secretsClient.getSecretValue(getSecretValueRequest);
+        String secretString = getSecretValueResponse.secretString();
+
+        // Parse the secret value (JSON format) to extract AWS credentials
+        JSONObject secretJson = new JSONObject(secretString);
+        String accessKey = secretJson.getString("AWS_ACCESS_KEY_ID");
+        String secretKey = secretJson.getString("AWS_SECRET_ACCESS_KEY");
+
+        // Create AWS credentials object using the extracted keys
+        AwsBasicCredentials awsCredentials = AwsBasicCredentials.create(accessKey, secretKey);
+
+        // Create and return the EventBridge client configured with the credentials and region
+        return EventBridgeClient.builder()
+                .region(Region.US_EAST_1)
+                .credentialsProvider(StaticCredentialsProvider.create(awsCredentials))
+                .build();
     }
 }
 
