@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 /**
  * Main class to run the EventBridge example.
  */
-
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
@@ -23,14 +22,13 @@ public class Main {
         String eventPattern = "{ \"source\": [\"clms.system\"] }";
         // Define the target ID and ARN for CloudWatch Log Group
         String targetId = "TargetId";
-        String arn = "arn:aws:lambda:us-east-1:000000000000:function:TestFunction";
+        String arn = "arn:aws:logs:us-east-1:000000000000:log-group:TestLogGroup"; // Update with your CloudWatch Log Group ARN
 
         logger.info("Creating rule...");
         createEventRule.createRule(ruleName, eventPattern);
 
         logger.info("Adding target...");
         addTarget.addTarget(ruleName, targetId, arn);
-
         // Define event details
         String detailType = "CLMS Data Change";
         String source = "clms.system";
